@@ -6,6 +6,7 @@ import pandas as pd
 loaded_model = joblib.load('lr_model.pkl')
 loaded_model2 = joblib.load('RF_model.pkl')
 loaded_model3 = joblib.load('best_model.pkl')
+loaded_model4 = joblib.load('best_model_chronic_risk.pkl')
 
 # Create a Flask web application
 app = Flask(__name__)
@@ -133,6 +134,29 @@ def predict_chronic_risk():
 
     except Exception as e:
         return jsonify({'error': 'An error occurred: ' + str(e)}), 500
+
+
+@app.route('/predict_chronic_risk_on_physical', methods=['POST'])
+def predict():
+    try:
+        # Get the input data from the POST request
+        input_data = request.json  # Assuming input is sent as JSON
+        input_list = [input_data['feature1'], input_data['feature2'], input_data['feature3'],
+                      input_data['feature4'], input_data['feature5'], input_data['feature6']]
+
+        input_df = pd.DataFrame([input_list])
+
+        # Make predictions using the loaded model
+        predictions = loaded_model4.predict(input_df)
+
+        label_mapping = {0: 'No', 1: 'Yes'}
+        predicted_labels = [label_mapping[prediction] for prediction in predictions]
+
+        # Return the predicted labels as a JSON response
+        return jsonify({"prediction": predicted_labels[0]})
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 
 if __name__ == '__main__':
