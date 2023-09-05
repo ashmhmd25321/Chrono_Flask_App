@@ -137,7 +137,7 @@ def predict_chronic_risk():
 
 
 @app.route('/predict_chronic_risk_on_physical', methods=['POST'])
-def predict():
+def predict_chronic_risk_on_physical():
     try:
         # Get the input data from the POST request
         input_data = request.json  # Assuming input is sent as JSON
