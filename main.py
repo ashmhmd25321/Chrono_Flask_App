@@ -152,12 +152,12 @@ def predict_chronic_risk_on_physical():
         label_mapping = {0: 'No', 1: 'Yes'}
         predicted_labels = [label_mapping[prediction] for prediction in predictions]
 
-        # Return the predicted labels as a JSON response
-        return jsonify({"prediction": predicted_labels[0]})
+        # Return the predicted labels as JSON response
+        return jsonify({'predictions': predicted_labels})
 
     except Exception as e:
         return jsonify({"error": str(e)})
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0')
